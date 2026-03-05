@@ -36,6 +36,16 @@ html {
     grid-template-columns: 1fr 1fr;
 }
 
+/* Fix pieChartLegend.*/
+
+#pieChartLegend {
+    display:flex;
+    flex-direction:column;
+
+}
+
+
+
 .information {
     display: flex;
     flex-direction: column;
@@ -60,6 +70,20 @@ html {
     margin-top: 20px;
 }
 
+.navLogo {
+    align-self:center;
+    width:189px;
+    height:75px;
+}
+
+
+h1 {
+  display:flex;
+  justify-content:center;
+  margin-top:30px;  
+}
+
+
 .progress {
     height: 30px;
     background-color: var(--primary-color);
@@ -71,13 +95,31 @@ button.active {
     background-color: var(--secondary-color);
 }
 
+.navItems {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px;
+}
+
+.addBudgetBtn {
+    width:55px;
+    height:55px;
+}
+
+.collapseMenu {
+    width:65px;
+    height:65px;
+}
+
+
 .navBar {
     background-color: var(--primary-color);
 }
 .information{
     display: flex;
-
     
+
 background-color: var(--primary-color);
 }
 
