@@ -13,14 +13,15 @@ stepPages.forEach(btn => {
 
 
 // --- Creating input elements ---
+
+// !!! Hard Code in the container for the inputs !!!
 const createInputElement = (id, label) => {
-  const container = document.getElementById("informationLegend");
   const input = document.createElement("input");
   input.type = "number";
   input.id = id;
   input.placeholder = label;
-  container.appendChild(input);
-  return container;
+  input.addEventListener("change", () => {refreshChart()});
+  return input;
 };
 
 // --- Chart.js setup ---
@@ -32,7 +33,7 @@ const metricSelect = document.getElementById("metricSelect");
 const renderBtn = document.getElementById("renderBtn");
 
 // --- Setup ---
-const housingData = createInputElement("housingData", "Housing");
+const housingData = createInputElement("housingData", "Housing").getRootNode;
 const utilData = createInputElement("utilData", "Utilities");
 const transportData = createInputElement("transportData", "Transport");
 const entertainmentData = createInputElement("entertainmentData", "Entertainment");
@@ -41,70 +42,79 @@ const splurgeData = createInputElement("splurgeData", "Splurge");
 const emergencyData = createInputElement("emergencyData", "Emergency");
 const retireData = createInputElement("retireData", "Retirement");
 const vacationData = createInputElement("vacationData", "Vacation");
-const chartData = [
-  { month: 1, budget: "Housing", value: housingData.value },
-  { month: 1, budget: "Utilities", value: utilData.value },
-  { month: 1, budget: "Transport", value: transportData.value },
-  { month: 1, budget: "Entertainment", value: entertainmentData.value },
-  { month: 1, budget: "Hobbies", value: hobbiesData.value },
-  { month: 1, budget: "Splurge", value: splurgeData.value },
-  { month: 1, budget: "Emergency", value: emergencyData.value },
-  { month: 1, budget: "Retirement", value: retireData.value },
-  { month: 1, budget: "Vacation", value: vacationData.value },
-];
 
 let currentChart = null;
 
-// --- Populate dropdowns from data ---
-const months = [...new Set(chartData.map(r => r.month))];
-const budgets = [...new Set(chartData.map(r => r.budget))];
+// --- Fallback ---
+function toNumber(el, fallback = 0) {
+  if (!el.value) return fallback;
+  const v = parseFloat(el.value.replace(/[^0-9.\-]/g, ''));
+  return Number.isFinite(v) ? v : fallback;
+}
 
-months.forEach(m => monthselect.add(new Option(m, m)));
-budgets.forEach(h => budgetSelect.add(new Option(h, h)));
-budgetSelect.add(new Option("eSports", "eSports"));
+// --- Chart ---
+function buildChart() {
+  const housing = toNumber(housingData, 1000);
+  const util = toNumber(utilData, 1000);
+  const transport = toNumber(transportData, 1000);
+  const entertainment = toNumber(entertainmentData, 1000);
+  const hobbies = toNumber(hobbiesData, 1000);
+  const splurge = toNumber(splurgeData, 1000);
+  const emergency = toNumber(emergencyData, 1000);
+  const retire = toNumber(retireData, 1000);
+  const vacation = toNumber(vacationData, 1000);
 
-monthselect.value = months[0];
-budgetSelect.value = budgets[0];
+  console.log(housing);
 
-// --- Main render ---
-renderBtn.addEventListener("click", () => {
-  const chartType = chartTypeSelect.value;
-  const month = Number(monthselect.value);
-  const budget = budgetSelect.value;
-  const metric = metricSelect.value;
-
-  // Destroy old chart if it exists (common Chart.js gotcha)
-  if (currentChart) currentChart.destroy();
-
-  // Build chart config based on type
-  const config = buildConfig(chartType, { month, budget, metric });
-
-  currentChart = new Chart(canvas, config);
-});
-
-function doughnutDiffCosts(month, budget) {
-  const rows = getRowsForbudget(budget).filter(r => r.month === month);
-
-  const regionSums = rows.reduce((acc, r) => {
-    const region = r.region;
-    const rev = r.revenue;
-    acc[region] = (acc[region] || 0) + rev;
-    return acc;
-  }, {});
-
-  const labels = Object.keys(regionSums);
-  const data = labels.map(l => regionSums[l]);
+  const labels = ["Housing","Utilities","Transport","Entertainment","Hobbies","Splurge","Emergency","Retirement","Vacation"];
+  const data = [housing, util, transport, entertainment, hobbies, splurge, emergency, retire, vacation];
 
   return {
     type: "doughnut",
     data: {
       labels,
-      datasets: [{ label: "Revenue (USD)", data }]
+      datasets: [{
+        label: "Pie Chart",
+        data,
+        backgroundColor: [
+          "#8979ff","#ff928a","#3cc3df","#ffae4c","#537ff1","#6fd195","#8c63da","#2bb7dc","#1f94ff"
+        ]
+      }]
     },
     options: {
       plugins: {
-        title: { display: true, text: `Revenue by region: ${budget} (${month})` }
+        title:{display: true, text: "Current Budget"}
       }
     }
   };
 }
+
+// --- Initializer ---
+function initChart() {
+  if (typeof Chart === "undefined") {
+    console.warn("Chart Not found")
+    return null;
+  }
+
+  const cfg = buildChart();
+  currentChart = new Chart(canvas, cfg);
+  return currentChart;
+}
+
+// --- Update Chart ---
+function refreshChart() {
+  const cfg = buildChart();
+  if (!currentChart) {
+    currentChart = initChart();
+    return;
+  }
+
+  currentChart.data.labels = cfg.data.labels;
+  currentChart.data.datasets[0] = cfg.data.datasets[0];
+  currentChart.options.plugins = cfg.options.plugins;
+  currentChart.update();
+}
+
+// --- Run Chart ---
+initChart();
+// setInterval(refreshChart, 2000);
