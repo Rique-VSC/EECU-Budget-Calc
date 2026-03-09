@@ -34,40 +34,43 @@
     </nav>
     <main>
         <h1>Budget Calculator</h1>
-        <div class="boxes">
-            <section class="information">
-                <canvas class="pieChart" id="chartCanvas"></canvas>
-                <section class="pieChartLegend" id="informationLegend"></section>
-            </section>
-        </div>
-        <section class="inputs">
-            <div class="progressBar">
-                <button id="stepOne">1</button>
-                <button id="stepTwo">2</button>
-                <button id="stepThree">3</button>
-                <button id="stepFour">4</button>
-                <button id="stepFive">5</button>
-            </div>
+        <section id="mainSection">
             <div class="boxes">
-                <h2 class="inputsTitle"></h2>
-                <form action="">
-                    <label for="">When do you receieve your income?</label>
-                    <select name="" id="" class="incomePeriod">
-                        <option value="none">Select an Option</option>
-                        <option value="annualy" class="annualy">Annualy</option>
-                        <option value="monthly" class="monthly">Monthly</option>
-                        <option value="biWeekly" class="biWeekly">Bi-Weekly</option>
-                        <option value="weekly" class="weekly">Weekly</option>
-                    </select>
-                    <label for="" class="incomeLabel">Your Amount of income</label>
-                    <input type="text" class="incomeInput">
-                    <!-- btn image in css -->
-                    <button class="addInputBtn">add</button>
-                    <button class="nextBtn">
-                        <a href="essentials.html">Next</a>
-                    </button>
-                </form>
+                <div class="topBar"></div>
+                <section class="information">
+                    <canvas class="pieChart" id="chartCanvas"></canvas>
+                    <section class="pieChartLegend" id="informationLegend"></section>
+                </section>
             </div>
+            <section class="inputs">
+                <div class="progressBar">
+                    <button id="stepOne">1</button>
+                    <button id="stepTwo">2</button>
+                    <button id="stepThree">3</button>
+                    <button id="stepFour">4</button>
+                    <button id="stepFive">5</button>
+                </div>
+                <div class="boxes">
+                    <h2 class="inputsTitle"></h2>
+                    <form action="">
+                        <label for="">When do you receieve your income?</label>
+                        <select name="" id="" class="incomePeriod">
+                            <option value="none">Select an Option</option>
+                            <option value="annualy" class="annualy">Annualy</option>
+                            <option value="monthly" class="monthly">Monthly</option>
+                            <option value="biWeekly" class="biWeekly">Bi-Weekly</option>
+                            <option value="weekly" class="weekly">Weekly</option>
+                        </select>
+                        <label for="" class="incomeLabel">Your Amount of income</label>
+                        <input type="text" class="incomeInput">
+                        <!-- btn image in css -->
+                        <button class="addInputBtn">add</button>
+                        <button class="nextBtn">
+                            <a href="essentials.html">Next</a>
+                        </button>
+                    </form>
+                </div>
+            </section>
         </section>
     </main>
 </body>

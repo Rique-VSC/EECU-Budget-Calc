@@ -20,6 +20,7 @@
     --text-font-size: 24px;
     --input-font-size: 16px;
     --pie-chart-text: 12px;
+    --top-bar-width: 15px;
 }
 
 * {
@@ -36,12 +37,30 @@ html {
     grid-template-columns: 1fr 1fr;
 }
 
-/* Fix pieChartLegend.*/
+#mainSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 10px;
+}
 
-#pieChartLegend {
+.topBar {
+    background-color: var(--secondary-color);
+    height: var(--top-bar-width);
+    width: -webkit-fill-available;
+}
+
+.pieChartLegend {
+    /* not sure if this width setting is good or not */
+    width: -webkit-fill-available;
     display:flex;
     flex-direction:column;
+    background-color: #ffffff;
+}
 
+.pieChart {
+    background-color: #ffffff;
 }
 
 
@@ -52,6 +71,8 @@ html {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    gap: 20px;
+    height: -webkit-fill-available;
 }
 
 .inputs {
@@ -59,15 +80,14 @@ html {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
 }
 
 .progressBar {
     width: 100%;
     background-color: var(--secondary-color);
-    border-radius: var(--radius);
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
     overflow: hidden;
-    margin-top: 20px;
 }
 
 .navLogo {
@@ -97,9 +117,14 @@ button.active {
 
 .navItems {
     display:flex;
-    justify-content:space-between;
+    justify-content:flex-start;
     align-items:center;
     padding:30px;
+}
+
+.navItems a {
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 .addBudgetBtn {
@@ -116,28 +141,29 @@ button.active {
 .navBar {
     background-color: var(--primary-color);
 }
-.information{
-    display: flex;
-    
 
-background-color: var(--primary-color);
+.information {
+    display: flex;
+    background-color: var(--primary-color);
 }
 
 .boxes{
-    display: grid;
-margin: 10%;
+    /* display: grid; */
+    /* this messes up the layout, not sure if you need it */
 }
-form{
-background-color: var(--primary-color);
-width: 100%;
-height: 400px;
-color: white;
-max-width: 40em;
+
+form {
+    background-color: var(--primary-color);
+    width: 100%;
+    height: 400px;
+    color: white;
+    max-width: 40em;
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
 }
 
 form>label{
 
-
-
-
 }
+
+
